@@ -1,0 +1,280 @@
+﻿@model SecuredHub.Models.DashboardModel
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SecuredHub</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+        @@media (max-width: 1200px) {
+  .navbar {
+    height: 80px;
+  }
+  .nav-item {
+    font-size: 22px;
+  }
+  .navbar-brand {
+    padding: 7px;
+    left: 10%;
+  }
+  .navbar-brand img {
+    height: 60px;
+  }
+}
+
+@@media (max-width: 992px) {
+  .navbar {
+    height: 60px;
+  }
+  .nav-item {
+    font-size: 18px;
+  }
+  .navbar-brand {
+    padding: 5px;
+    left: 8%;
+  }
+  .navbar-brand img {
+    height: 50px;
+  }
+}
+
+@@media (max-width: 768px) {
+  .navbar {
+    height: 50px;
+  }
+  .nav-item {
+    font-size: 14px;
+  }
+  .navbar-brand {
+    padding: 3px;
+    left: 6%;
+  }
+  .navbar-brand img {
+    height: 40px;
+  }
+}
+
+@@media (max-width: 576px) {
+  .navbar {
+    height: 40px;
+  }
+  .nav-item {
+    font-size: 12px;
+  }
+  .navbar-brand {
+    padding: 2px;
+    left: 4%;
+  }
+  .navbar-brand img {
+    height: 30px;
+  }
+}
+
+        .navbar-nav{
+            flex-wrap: wrap;
+            /* Add margin to the right */
+        }
+
+        .nav-item {
+            margin-right: 30px;
+
+            /* Add margin to the right of each nav-item */
+        }
+
+        .nav-link {
+            padding: 10px 15px;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #337ab7;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: #f7f7f7;
+            color: #23527c;
+        }
+
+        .navbar {
+            background-image: linear-gradient(to right, #00aaff, #00ff00);
+            top: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            font-size: 28px;
+            font-weight: bold;
+            justify-content: center;
+            color: #000000;
+        }
+
+        .navbar-brand {
+            background-color: #04fd9e;
+            padding: 9px;
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #d9ff00;
+            border-radius: 9px;
+        }
+
+        .navbar-brand img {
+            border: 1px solid #7700ff;
+            border-radius: 5px;
+        }
+
+        .nav-item:hover {
+            color: #ffae00;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 100px);
+            background-image: url('https://img.freepik.com/free-photo/vivid-blurred-colorful-background_58702-2655.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            /* Add z-index to send the background image behind the container */
+        }
+
+        .bg-container {
+            position: relative;
+            /* Add position relative to the container */
+            background-color: rgb(132, 216, 255);
+            padding: 10px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            z-index: 1;
+            /* Add z-index to bring the container in front of the background image */
+        }
+
+        main {
+            flex: 1;
+        }
+
+        .footer {
+            padding: 10px;
+            text-align: center;
+            height: 60px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #337ab7;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* Add media queries for responsiveness */
+        @@media (max-width: 992px) {
+            .container {
+                max-width: 900px;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .container {
+                max-width: 700px;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .container {
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <nav class="navbar navbar-expand-lg fixed-top bg-light navbar-light">
+                <div class="container">
+                    <a class="navbar-brand" href="#"><img id="MDB-logo"
+                            src="https://cdn-icons-png.freepik.com/512/9523/9523006.png" alt="MDB Logo"
+                            draggable="false" height="70" /></a>
+                    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav">
+                            <!-- Add other nav-items here if needed -->
+                        </ul>
+                        <ul class="navbar-nav ms-auto"> <!-- Add ms-auto class here -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                              @if (!string.IsNullOrEmpty(@HttpContextAccessor.HttpContext.Session.GetString("Name")))
+                              {
+                                 <li class="nav-item">
+                                    <form method="post" asp-controller="Home" asp-action="Dashboard">
+                                        <button type="submit" class="nav-link btn btn-link">Dashboard</button>
+                                    </form>
+                                </li>
+                              }
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Register">Register</a>
+                            </li>
+                            @if (!string.IsNullOrEmpty(@HttpContextAccessor.HttpContext.Session.GetString("Name")))
+                            {
+                                <li class="nav-item">
+                                    <form method="post" asp-controller="Auth" asp-action="Logout">
+                                        <button type="submit" class="nav-link btn btn-link">Logout</button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="bg-image"></div> <!-- Add this div for the background image -->
+        <div class="bg-container"> <!-- Add this div for the container -->
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        <footer class="footer ">
+            <div class="footerText">
+                &copy; 2024 - SecuredHub Developed By &lt; Aayush More &gt;
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

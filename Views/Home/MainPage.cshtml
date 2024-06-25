@@ -1,0 +1,78 @@
+@page
+@model SecuredHub.Models.DashboardModel
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+
+
+
+@if (!string.IsNullOrEmpty(@HttpContextAccessor.HttpContext.Session.GetString("Name")))
+{
+    <h1>Dashboard</h1>
+    <p>Welcome to your dashboard, @HttpContextAccessor.HttpContext.Session.GetString("Name")!</p>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">Quick Stats</h5>
+                <div class="card-body">
+                    <p>Total Users: 100</p>
+                    <p>Total Orders: 500</p>
+                    <p>Total Revenue: $10,000</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">Recent Activity</h5>
+                <div class="card-body">
+                    <ul>
+                        <li>Order #1234 placed on 2023-02-15</li>
+                        <li>User "John Doe" registered on 2023-02-10</li>
+                        <li>Product "Widget" updated on 2023-02-05</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <h5 class="card-header">System Status</h5>
+                <div class="card-body">
+                    <p>Server Uptime: 99.99%</p>
+                    <p>Database Connection: OK</p>
+                    <p>Cache Hit Ratio: 80%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h1>Home Page</h1>
+    <p>You are Restricted to access this page. Kindly Login Again !</p>
+}
+
+<script>
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        fetch('/Auth/Logout', {
+            method: 'POST',
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Redirect to the login page or home page
+                    window.location.href = '/home';
+                } else {
+                    // If the response was not successful, show an error message
+                    response.json().then(data => {
+                        alert("Error: " + data.message);
+                    });
+                }
+            })
+            .catch(error => {
+                console.log("Error: " + error);
+                // If there's a network error, show an error message
+                alert("Network error: " + error);
+            });
+    });
+</script>
